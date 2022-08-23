@@ -12,7 +12,7 @@ import org.springframework.web.client.RestTemplate;
 import com.magadiflo.item.models.Item;
 import com.magadiflo.item.models.Producto;
 
-@Service
+@Service("serviceRestTemplate")
 public class ItemServiceImpl implements IItemService {
 
 	private final RestTemplate clienteRest;
