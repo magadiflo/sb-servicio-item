@@ -2,6 +2,7 @@ package com.magadiflo.item;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
@@ -17,8 +18,14 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * 
  * ATENCIÓN: Se quitó ribbon, ya que esa dependencia se maneja de forma automática. Es decir, 
  * ya viene implícito en la dependencia de Eureka
+ * 
+ * @EnableCircuitBreaker, envuelve a ribbon para agregarle tolerancia a fallos, manejo de latencia y time out 
+ * RECORDAR: ribbon, si bien es cierto, no lo tenemos en el pom.xml ya viene incluido dentro del cliente eureka. 
+ * Ahora, si tenemos una versión más actual de Spring Boot +2.5 no usará ribbon sino Spring Cloud Load Balancer 
+ * y en vez de usar Hystrix usaíamos resilence4j) 
  */
 
+@EnableCircuitBreaker
 @EnableEurekaClient
 @EnableFeignClients
 @SpringBootApplication
