@@ -1,5 +1,6 @@
 package com.magadiflo.item.config;
 
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
@@ -16,6 +17,7 @@ public class AppConfig {
 	 * constructor
 	 */
 
+	@LoadBalanced // De forma autmática usará Ribbon para el balanceo de carga, en este caso usando RestTemplate
 	@Bean("clienteRest")
 	public RestTemplate registrarRestTemplate() {
 		return new RestTemplate();

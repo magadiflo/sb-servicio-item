@@ -17,7 +17,7 @@ public class ItemController {
 
 	private final IItemService itemService;
 
-	public ItemController(@Qualifier("serviceFeign") IItemService itemService) {
+	public ItemController(@Qualifier("serviceRestTemplate") IItemService itemService) {
 		this.itemService = itemService;
 	}
 
