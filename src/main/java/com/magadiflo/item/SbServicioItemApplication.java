@@ -2,7 +2,7 @@ package com.magadiflo.item;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.netflix.ribbon.RibbonClient;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
@@ -11,14 +11,15 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * clientes en nuestros controladores u otros componentes de Spring, por
  * ejemplo: en una clase service habilita la inyección de dependencia
  * (@Autowire)
+ *  * 
+ * @EnableEurekaClient, con solo tener en el pom.xml la dependencia de EurekaCliente ya está habilitado
+ * pero sería mejor si lo habilitamos de forma explícita con esta anotación
  * 
- * @RibbonClient(name = "servicio-productos"), por que trabajaremos con 1 solo cliente.
- * El nombre "servicio-productos" tiene que ser exactamente igual al que definimos 
- * el @FeignClient de la interface IProductoClienteRest
- * 
+ * ATENCIÓN: Se quitó ribbon, ya que esa dependencia se maneja de forma automática. Es decir, 
+ * ya viene implícito en la dependencia de Eureka
  */
 
-@RibbonClient(name = "servicio-productos")
+@EnableEurekaClient
 @EnableFeignClients
 @SpringBootApplication
 public class SbServicioItemApplication {
