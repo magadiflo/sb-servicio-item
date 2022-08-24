@@ -28,7 +28,7 @@ import com.magadiflo.item.models.Producto;
  * convertidos a nuestros objetos (Producto)
  */
 
-@FeignClient(name = "servicio-productos", url = "127.0.0.1:8001/productos")
+@FeignClient(name = "servicio-productos", path = "/productos")
 public interface IProductoClienteRest {
 
 	@GetMapping
