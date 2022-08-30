@@ -45,7 +45,8 @@ public class AppConfig {
 							.waitDurationInOpenState(Duration.ofSeconds(10L)) // Por defecto es 60s en estado abierto
 							.permittedNumberOfCallsInHalfOpenState(5) //Por defecto son 10
 							.build())
-					.timeLimiterConfig(TimeLimiterConfig.ofDefaults()).build();
+					.timeLimiterConfig(TimeLimiterConfig.custom().timeoutDuration(Duration.ofSeconds(2L)).build())
+					.build();
 		});
 	}
 
