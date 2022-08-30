@@ -44,8 +44,10 @@ public class AppConfig {
 							.failureRateThreshold(50) // Tasa de fallo, por defecto es 50%, tmb lo dejamos en 50%
 							.waitDurationInOpenState(Duration.ofSeconds(10L)) // Por defecto es 60s en estado abierto
 							.permittedNumberOfCallsInHalfOpenState(5) //Por defecto son 10
+							.slowCallRateThreshold(50) //Porcentaje en llamadas lentas (cuando la duración de la llamada es > que slowCallDurationThreshold)
+							.slowCallDurationThreshold(Duration.ofSeconds(2L))
 							.build())
-					.timeLimiterConfig(TimeLimiterConfig.custom().timeoutDuration(Duration.ofSeconds(2L)).build())
+					.timeLimiterConfig(TimeLimiterConfig.custom().timeoutDuration(Duration.ofSeconds(6L)).build()) //Le colocamos 6s para visualizar la llamada lenta y no ocurra el timeout, que según configuramos en el producto controller método detalle es de 5 seg para prod con id = 7
 					.build();
 		});
 	}
