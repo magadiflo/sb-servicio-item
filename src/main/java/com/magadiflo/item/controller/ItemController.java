@@ -17,6 +17,9 @@ import com.magadiflo.item.models.Item;
 import com.magadiflo.item.models.Producto;
 import com.magadiflo.item.models.service.IItemService;
 
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+
+
 @RestController
 @RequestMapping("/items")
 public class ItemController {
@@ -44,6 +47,12 @@ public class ItemController {
 		//Aplicamos resillience de forma programática
 		return cbFactory.create("items")
 				.run(() -> this.itemService.findById(id, cantidad), e -> metodoAlternatrivo(id, cantidad, e));
+	}
+	
+	@CircuitBreaker(name = "items", fallbackMethod = "metodoAlternatrivo") //Usando anotaciones solo se aplica la configuración via application.properties o application.yml, ya no funcionaría con la clase de configuración que definimos en AppConfig
+	@GetMapping(path = "/producto-2/{id}/cantidad/{cantidad}")
+	public Item detalle2(@PathVariable Long id, @PathVariable Integer cantidad) {
+		return this.itemService.findById(id, cantidad);
 	}
 	
 	public Item metodoAlternatrivo(Long id, Integer cantidad, Throwable e) {
