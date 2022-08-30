@@ -2,6 +2,8 @@ package com.magadiflo.item.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +20,8 @@ import com.magadiflo.item.models.service.IItemService;
 @RestController
 @RequestMapping("/items")
 public class ItemController {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(ItemController.class);
 
 	private final IItemService itemService;
 	private final CircuitBreakerFactory cbFactory;
@@ -39,10 +43,12 @@ public class ItemController {
 		//items, nombre que le daremos al cortocircuito
 		//Aplicamos resillience de forma programática
 		return cbFactory.create("items")
-				.run(() -> this.itemService.findById(id, cantidad), e -> metodoAlternatrivo(id, cantidad));
+				.run(() -> this.itemService.findById(id, cantidad), e -> metodoAlternatrivo(id, cantidad, e));
 	}
 	
-	public Item metodoAlternatrivo(Long id, Integer cantidad) {
+	public Item metodoAlternatrivo(Long id, Integer cantidad, Throwable e) {
+		LOG.info(e.getMessage());
+		
 		Producto producto = new Producto();		
 		producto.setId(id);
 		producto.setNombre("Cámara Sony");
