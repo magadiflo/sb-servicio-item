@@ -43,7 +43,7 @@ public class ItemController {
 		//items, nombre que le daremos al cortocircuito
 		//Aplicamos resillience de forma programática
 		return cbFactory.create("items")
-				.run(() -> this.itemService.findById(id, cantidad), e -> metodoAlternatrivo(id, cantidad, e));
+				.run(() -> this.itemService.findById(id, cantidad)/*, e -> metodoAlternatrivo(id, cantidad, e)*/);
 	}
 	
 	public Item metodoAlternatrivo(Long id, Integer cantidad, Throwable e) {
