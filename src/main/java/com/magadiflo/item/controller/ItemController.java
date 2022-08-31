@@ -57,9 +57,14 @@ public class ItemController {
 		return this.itemService.findById(id, cantidad);
 	}
 	
-	
+	/**
+	 * Para manejar el método alternativo es suficiente solo manejarlo 
+	 * en el CircuitBreaker, ya que si se le pone en el TimeLimiter no funcionará,
+	 * bueno, esto siempre y cuando ambas anotaciones trabajen juntas como en este caos.
+	 * Vemos que tenemos tanto el CircuitBreaker y TimeLimiter juntos
+	 */
 	@CircuitBreaker(name = "items",  fallbackMethod = "metodoAlternatrivo2")
-	@TimeLimiter(name = "items", fallbackMethod = "metodoAlternatrivo2")
+	@TimeLimiter(name = "items")
 	@GetMapping(path = "/producto-3/{id}/cantidad/{cantidad}")
 	public CompletableFuture<Item> detalle3(@PathVariable Long id, @PathVariable Integer cantidad) {
 		return CompletableFuture.supplyAsync(() -> this.itemService.findById(id, cantidad));
