@@ -1,6 +1,7 @@
 package com.magadiflo.item.controller;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +19,7 @@ import com.magadiflo.item.models.Producto;
 import com.magadiflo.item.models.service.IItemService;
 
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
 
 
 @RestController
@@ -55,6 +57,14 @@ public class ItemController {
 		return this.itemService.findById(id, cantidad);
 	}
 	
+	
+	@CircuitBreaker(name = "items",  fallbackMethod = "metodoAlternatrivo2")
+	@TimeLimiter(name = "items", fallbackMethod = "metodoAlternatrivo2")
+	@GetMapping(path = "/producto-3/{id}/cantidad/{cantidad}")
+	public CompletableFuture<Item> detalle3(@PathVariable Long id, @PathVariable Integer cantidad) {
+		return CompletableFuture.supplyAsync(() -> this.itemService.findById(id, cantidad));
+	}
+	
 	public Item metodoAlternatrivo(Long id, Integer cantidad, Throwable e) {
 		LOG.info(e.getMessage());
 		
@@ -67,6 +77,20 @@ public class ItemController {
 		item.setCantidad(cantidad);
 		item.setProducto(producto);		
 		return item;
+	}
+	
+	public CompletableFuture<Item> metodoAlternatrivo2(Long id, Integer cantidad, Throwable e) {
+		LOG.info(e.getMessage());
+		
+		Producto producto = new Producto();		
+		producto.setId(id);
+		producto.setNombre("Cámara Sony");
+		producto.setPrecio(250.0);
+		
+		Item item = new Item();
+		item.setCantidad(cantidad);
+		item.setProducto(producto);		
+		return CompletableFuture.supplyAsync(() -> item);
 	}
 
 }
