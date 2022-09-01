@@ -1,12 +1,17 @@
 package com.magadiflo.item.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -30,6 +35,13 @@ public class ItemController {
 
 	private final IItemService itemService;
 	private final CircuitBreakerFactory cbFactory;
+	
+	//configuracion.texto, no está en el application.properties, application.yml, bootstrap.properties,
+	//sino, por el contrario está definido en el servidor de configuración, más específicamente en el 
+	//directorio: c:\config-repo\servicio-item.properties. Esto porque en el bootstrap.properties
+	//se hará la llamada al servidor de configuraciones y este está enlazado a ese directorio
+	@Value("${configuracion.texto}")
+	private String texto;
 
 	public ItemController(@Qualifier("serviceFeign") IItemService itemService, CircuitBreakerFactory cbFactory) {
 		this.itemService = itemService;
@@ -96,6 +108,30 @@ public class ItemController {
 		item.setCantidad(cantidad);
 		item.setProducto(producto);		
 		return CompletableFuture.supplyAsync(() -> item);
+	}
+	
+	/**
+	 * ResponseEntity<?> es un objeto de spring que representa el
+	 * contenido que vamos a guardar en el cuerpo de la respuesta.
+	 * ?, le decimos que puede retornar cualquier tipo de objeto
+	 */
+	
+	/**
+	 * obtenerConfig(@Value("${server.port}") String puerto), es otra forma de 
+	 * obtener el valor del propertie, pero en este caso directamente en el
+	 * método
+	 */
+	
+	@GetMapping(path = "/obtener-config")
+	public ResponseEntity<?> obtenerConfig(@Value("${server.port}") String puerto) {
+		LOG.info("Texto: {}", this.texto);
+		LOG.info("Puerto: {}", puerto);
+		
+		Map<String, String> json = new HashMap<>();
+		json.put("texto", this.texto);
+		json.put("puerto", puerto);
+		
+		return new ResponseEntity<Map<String, String>>(json, HttpStatus.OK);
 	}
 
 }
