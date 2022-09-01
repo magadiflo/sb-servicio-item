@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,9 +33,11 @@ import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
 public class ItemController {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(ItemController.class);
+	
 
 	private final IItemService itemService;
 	private final CircuitBreakerFactory cbFactory;
+	private final Environment env;
 	
 	//configuracion.texto, no está en el application.properties, application.yml, bootstrap.properties,
 	//sino, por el contrario está definido en el servidor de configuración, más específicamente en el 
@@ -43,9 +46,11 @@ public class ItemController {
 	@Value("${configuracion.texto}")
 	private String texto;
 
-	public ItemController(@Qualifier("serviceFeign") IItemService itemService, CircuitBreakerFactory cbFactory) {
+	public ItemController(@Qualifier("serviceFeign") IItemService itemService, 
+			CircuitBreakerFactory cbFactory, Environment env) {
 		this.itemService = itemService;
 		this.cbFactory = cbFactory;
+		this.env = env;
 	}
 
 	@GetMapping
@@ -130,6 +135,11 @@ public class ItemController {
 		Map<String, String> json = new HashMap<>();
 		json.put("texto", this.texto);
 		json.put("puerto", puerto);
+		
+		if(env.getActiveProfiles().length > 0 && env.getActiveProfiles()[0].equals("dev")) {
+			json.put("autor.nombre", env.getProperty("configuracion.autor.nombre"));	
+			json.put("autor.email", env.getProperty("configuracion.autor.email"));	
+		}
 		
 		return new ResponseEntity<Map<String, String>>(json, HttpStatus.OK);
 	}
