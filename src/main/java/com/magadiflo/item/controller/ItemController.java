@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,21 @@ import com.magadiflo.item.models.service.IItemService;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
 
+/*
+ * @RefreshScope, permite actualizas las clases anotadas con component, controllers, services, etc.. 
+ * que están inyectando algunas dependencias como los environment en esta clase o algunas otras que
+ * se anotan con el @Autowired, o con el @Value.
+ *  
+ * Actualiza, se refresca el contexto y vuelve actualizar los componentes con los cambios reflejados 
+ * en tiempo real sin tener que actualizar la aplicación. Todo esto mediante una ruta url (endpoint) 
+ * de spring actuator.
+ * 
+ * management.endpoints.web.exposure.include=*, esto se configura en el bootstrap.properties,
+ * el * significa que incluye todos los endpoints de spring actuator (como el refresh, etc)
+ * */
 
+
+@RefreshScope 
 @RestController
 @RequestMapping("/items")
 public class ItemController {
