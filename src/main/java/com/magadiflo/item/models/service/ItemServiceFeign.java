@@ -29,4 +29,19 @@ public class ItemServiceFeign implements IItemService {
 		return new Item(producto, cantidad);
 	}
 
+	@Override
+	public Producto save(Producto producto) {
+		return null;
+	}
+
+	@Override
+	public Producto update(Producto producto, Long id) {
+		return null;
+	}
+
+	@Override
+	public void delete(Long id) {
+		
+	}
+
 }
