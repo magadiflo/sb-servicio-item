@@ -66,7 +66,7 @@ public class ItemController {
 	@Value("${configuracion.texto}")
 	private String texto;
 
-	public ItemController(@Qualifier("serviceRestTemplate") IItemService itemService, 
+	public ItemController(@Qualifier("serviceFeign") IItemService itemService, 
 			CircuitBreakerFactory cbFactory, Environment env) {
 		this.itemService = itemService;
 		this.cbFactory = cbFactory;

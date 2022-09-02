@@ -3,8 +3,12 @@ package com.magadiflo.item.clientes;
 import java.util.List;
 
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.magadiflo.item.models.Producto;
 
@@ -26,6 +30,15 @@ import com.magadiflo.item.models.Producto;
  * rutas url), excepto que aquí, en el Feign Clients, se usa para indicar la
  * ruta para CONSUMIR el servicio, el apiRest y obtener los datos del JSON pero
  * convertidos a nuestros objetos (Producto)
+ * 
+ * 
+ * ¡ATENCIÓN! Los métodos HTTP definidos en esta interfaz con FEIGN 
+ * (@GetMapping, @PostMapping, @PutMapping, @DeleteMapping)
+ * deben ser similares a los métodos HTTP definidos en el controlador
+ * del cual estamos consumiento, en este caso del servicio
+ * productos, es decir tanto las rutas de mapeo como los métodos
+ * HTTP definidos en dicho controlador deben ser iguales que en 
+ * esta interfaz
  */
 
 @FeignClient(name = "servicio-productos", path = "/productos")
@@ -36,5 +49,14 @@ public interface IProductoClienteRest {
 
 	@GetMapping("/{id}")
 	public Producto detalle(@PathVariable Long id);
+	
+	@PostMapping
+	public Producto crear(@RequestBody Producto producto);
+	
+	@PutMapping("/{id}")
+	public Producto update(@RequestBody Producto producto, @PathVariable Long id);
+	
+	@DeleteMapping("/{id}")
+	public void delete(@PathVariable Long id);
 
 }
