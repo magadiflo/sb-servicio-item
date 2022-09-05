@@ -22,6 +22,13 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * 
  */
 
+
+/**
+ * NOTA: 
+ * Nuestro servicio items no maneja persistencia jpa, por lo tanto, solo usamos las clases del 
+ * servicio commons como POJO pero no como clase entity, por eso no es necesario el @EntityScan. 
+ *
+ */
 @EnableEurekaClient
 @EnableFeignClients
 @SpringBootApplication
