@@ -3,7 +3,7 @@ package com.magadiflo.item.models.service;
 import java.util.List;
 
 import com.magadiflo.item.models.Item;
-import com.magadiflo.item.models.Producto;
+import com.magadiflo.commons.models.entity.Producto;
 
 public interface IItemService {
 

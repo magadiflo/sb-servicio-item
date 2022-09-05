@@ -1,5 +1,7 @@
 package com.magadiflo.item.models;
 
+import com.magadiflo.commons.models.entity.Producto;
+
 public class Item {
 
 	private Producto producto;

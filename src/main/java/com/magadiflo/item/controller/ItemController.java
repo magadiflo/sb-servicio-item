@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.magadiflo.item.models.Item;
-import com.magadiflo.item.models.Producto;
+import com.magadiflo.commons.models.entity.Producto;
 import com.magadiflo.item.models.service.IItemService;
 
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;

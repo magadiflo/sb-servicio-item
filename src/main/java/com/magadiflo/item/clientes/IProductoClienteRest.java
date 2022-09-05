@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.magadiflo.item.models.Producto;
+import com.magadiflo.commons.models.entity.Producto;
 
 /**
  * @FeignClient, con esto se define que esta interface es un cliente Feign.

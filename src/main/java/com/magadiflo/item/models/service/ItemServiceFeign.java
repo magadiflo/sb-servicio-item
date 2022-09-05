@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.magadiflo.item.clientes.IProductoClienteRest;
 import com.magadiflo.item.models.Item;
-import com.magadiflo.item.models.Producto;
+import com.magadiflo.commons.models.entity.Producto;
 
 @Service("serviceFeign")
 public class ItemServiceFeign implements IItemService {

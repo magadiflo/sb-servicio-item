@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.magadiflo.item.models.Item;
-import com.magadiflo.item.models.Producto;
+import com.magadiflo.commons.models.entity.Producto;
 
 @Service("serviceRestTemplate")
 public class ItemServiceImpl implements IItemService {
