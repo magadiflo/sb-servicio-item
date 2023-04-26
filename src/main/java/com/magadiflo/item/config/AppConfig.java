@@ -25,8 +25,7 @@ public class AppConfig {
 	 * constructor
 	 */
 
-	@LoadBalanced // De forma autmática usará Ribbon para el balanceo de carga, en este caso
-					// usando RestTemplate
+	@LoadBalanced // De forma autmática usará Ribbon para el balanceo de carga, en este caso usando RestTemplate
 	@Bean("clienteRest")
 	public RestTemplate registrarRestTemplate() {
 		return new RestTemplate();

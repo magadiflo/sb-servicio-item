@@ -10,7 +10,7 @@ Curso de Udemy - Microservicios con Spring Boot y Spring Cloud Netflix Eureka
 - Para usar la dependencia de ribbon debemos bajar la verión actual de spring boot a la versión 2.3.12.RELEASE
 La versión 2.4 en adelante no es compatible con ribbon, en esas versiones ya se usa Spring Cloud Load Balancer, pero solo para efectos de usar ribbon como balanceo de carga sin EUREKA es necesario cambiar las versiones.
 - También se cambia la versión de Spring-cloud a Hoxton.SR12
-
+- Es importante también cambiar la versión de java a la 1.8. Estuve realizando el repaso del curso con java 17 en IntelliJ IDEA y da errores con esta versión de Ribbon.
 - Luego agregamos en el pom.xml la dependencia de Ribbon
 
 - Configurar ribbon: feignClient y el archivo application.properties (solo trabajaremos con 2 instancias [dos direcciones donde estarán alojados nuestros servicios productos])
